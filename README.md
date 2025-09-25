@@ -1,109 +1,100 @@
 # AutoTally 📊
 
-AutoTally is a mobile application that automates the process of extracting structured data from images of receipts and bills and exports it directly into an Excel spreadsheet. Simply select your images, specify the data fields you need (e.g., "Total Amount," "Date," "Store Name"), and let the AI do the rest.
+AutoTally is an intelligent web application that automates the tedious task of data entry from receipts. Simply define the data you need, upload your receipt images, and get a structured Excel file in seconds. This project leverages the power of Google's Gemini AI to understand and extract information from images.
+
 
 ---
 
-## 🚀 How it Works
+## 🚀 Features
 
-The application uses a powerful combination of a mobile frontend and a smart backend to deliver a seamless experience:
-
-1.  **Image Selection**: The user opens the React Native application, specifies the comma-separated fields they want to extract, and selects multiple images of receipts or bills from their device's gallery.
-
-2.  **Secure Upload**: The selected images are sent to a Node.js and Express server via a `multipart/form-data` request, where they are temporarily stored for processing using `multer`.
-
-3.  **AI-Powered Data Extraction**: For each uploaded image, the server calls the **Google Gemini Pro Vision API**. A carefully crafted prompt instructs the AI to analyze the image and extract the requested data fields, returning the information in a clean, structured JSON format.
-
-4.  **Parallel Processing**: The server processes all uploaded images concurrently, making the data extraction fast and efficient even for large batches.
-
-5.  **Excel File Generation**: Once the data from all images has been extracted, the server compiles the results into a single Excel (`.xlsx`) file using the `xlsx` library.
-
-6.  **Download and Share**: The generated Excel file is sent back to the React Native application. The user is then prompted with a share dialog to save the file to their device or open it in their preferred spreadsheet application.
-
-7.  **Automatic Cleanup**: All temporary image files are automatically deleted from the server after processing to ensure data privacy and efficient storage management.
+* **Dynamic Field Extraction:** Specify any fields you want to extract from your receipts (e.g., "Total Amount", "Date", "Store Name", "Tax").
+* **Batch Processing:** Upload multiple receipt images at once and process them in a single batch.
+* **AI-Powered:** Uses the Google Gemini model for accurate and reliable data extraction from images.
+* **Instant Excel Export:** Automatically generates and downloads a `.xlsx` file containing the extracted data, ready for analysis.
+* **Modern UI:** A clean and responsive user interface built with React and Tailwind CSS.
 
 ---
 
-## ✨ Features
+## 🏗️ Architecture
 
-* **Multi-Image Upload**: Select and process multiple receipts at once.
-* **Custom Data Extraction**: Define exactly which fields you want to extract from your documents.
-* **AI-Powered Accuracy**: Leverages the Google Gemini Vision model for high-precision data extraction.
-* **Direct to Excel**: Get a neatly organized `.xlsx` spreadsheet with your extracted data.
-* **Mobile First**: Built with React Native for a smooth mobile user experience.
-* **Secure and Private**: Uploaded images are deleted from the server immediately after processing.
+The application follows a simple client-server architecture:
+
+1.  **Frontend (React):** A single-page application built with React and styled with Tailwind CSS. It provides the user interface for selecting fields and uploading image files.
+2.  **Backend (Node.js/Express):** A Node.js server using the Express framework to handle API requests.
+    * It uses **Multer** to manage multipart/form-data, handling the image uploads.
+    * It communicates with the **Google Gemini API** to process each image and extract the requested data based on a dynamic prompt.
+    * It uses the **`xlsx`** library to compile the extracted JSON data into an Excel spreadsheet.
+    * Finally, it sends the generated Excel file back to the client for download.
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Mobile App**: React Native
-* **Backend**: Node.js, Express.js
-* **AI**: Google Gemini Pro Vision API (`gemini-1.5-flash`)
-* **File Uploads**: Multer
-* **Excel Generation**: `xlsx` (SheetJS)
-* **Dependencies**: `react-native-image-picker`, `react-native-fs`, `react-native-share`
+* **Backend:** Node.js, Express.js
+* **Frontend:** React, Tailwind CSS
+* **AI / Machine Learning:** Google Gemini API (`@google/generative-ai`)
+* **File Uploads:** Multer
+* **Excel Generation:** `xlsx` (SheetJS)
 
 ---
 
-## ⚙️ Setup and Installation
+## ⚙️ Getting Started
 
-Follow these steps to get the project running on your local machine.
+To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
 
-* **Node.js**: Make sure you have Node.js installed (v14 or later).
-* **React Native Environment**: A working React Native development environment (follow the [official setup guide](https://reactnative.dev/docs/environment-setup)).
-* **Google Gemini API Key**: You must have a valid API key for the Google Gemini API.
+* Node.js (v18 or later)
+* npm or yarn
+* A Google Gemini API Key
 
-### Backend Server Setup
+### Installation & Setup
 
-1.  **Navigate to the server directory** and install dependencies:
+1.  **Clone the repository:**
     ```bash
-    # Assuming your server files are in a 'server' folder
-    cd server
+    git clone [https://github.com/your-username/autotally.git](https://github.com/your-username/autotally.git)
+    cd autotally
+    ```
+
+2.  **Install server dependencies:**
+    ```bash
     npm install
     ```
+    *(Note: If you have a separate `client` folder, you will need to `cd client` and run `npm install` there as well.)*
 
-2.  **Set up environment variables:**
-    Create a file named `.env` in the root of the server directory and add your Google Gemini API key:
-    ```
-    GEMINI_API_KEY="YOUR_GEMINI_API_KEY_HERE"
+3.  **Create a `.env` file** in the root of the project and add your Google Gemini API key:
+    ```env
+    GEMINI_API_KEY="YOUR_API_KEY_HERE"
     ```
 
-3.  **Run the server:**
+4.  **Start the server:**
     ```bash
-    node server.js
+    npm start 
     ```
-    The server should now be running on `http://localhost:3000`.
+    *This will typically run a command like `node server.js`.*
 
-### React Native App Setup
-
-1.  **Navigate to the app directory** and install dependencies:
-    ```bash
-    # Assuming your app files are in an 'app' folder
-    cd app
-    npm install
-    ```
-
-2.  **Configure the API URL:**
-    Open the `app.jsx` file and update the `API_URL` constant to point to your server's endpoint:
-    ```javascript
-    const API_URL = 'http://your-local-ip:3000/process-bills';
-    ```
-    *(Note: When running on a physical device, use your computer's local network IP address, not `localhost`.)*
-
-3.  **Run the application:**
-    ```bash
-    # For Android
-    npx react-native run-android
-
-    # For iOS
-    npx react-native run-ios
-    ```
+5.  **Open the application:**
+    The server will start (usually on `http://localhost:3001` or a similar port). Open your browser and navigate to the address logged in the console.
 
 ---
 
-## 📄 License
+## Usage
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+1.  Enter the data fields you wish to extract in the "Fields to Extract" input, separated by commas.
+2.  Click the "Click to select images" button and choose one or more receipt images.
+3.  Click the "Select Images and Start" button.
+4.  Wait for the processing to complete. An Excel file with the extracted data will be downloaded automatically.
+
+---
+
+## 🤝 Contributing
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+---
